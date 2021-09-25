@@ -130,3 +130,6 @@ dmypy.json
 
 # avoid commiting config.py which has credentials
 config.py
+
+# ignore tsv files
+*.tsv
