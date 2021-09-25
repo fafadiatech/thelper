@@ -3,7 +3,8 @@ import operator
 from collections import defaultdict
 
 from config import TRELLO_KEY, TRELLO_TOKEN, BOARD_ID, API_BASE
-from exporters import export_tsv
+from exporters import export_tsv, export_html
+from utils import dict_to_list
 
 # this will keep track of counts
 label_counts = defaultdict(int)
@@ -84,11 +85,17 @@ if __name__ == "__main__":
                 member_name = get_member_name(current_member_id)
                 members_card_counts[member_name] += 1
 
+    context = {}
     humanize("\nList Summary Report:", list_summary)
     export_tsv("list-summary.tsv", list_summary)
+    context["list_summary"] = list_summary
 
     humanize_dict("\nLabel Summary Report", label_counts)
     export_tsv("label-summary.tsv", label_counts, is_dict=True)
+    context["label_counts"] = dict_to_list(label_counts)
 
     humanize_dict("\nMembers Summary Report", members_card_counts)
     export_tsv("members-summary.tsv", members_card_counts, is_dict=True)
+    context["members_card_counts"] = dict_to_list(members_card_counts)
+
+    export_html("report.html", context)
