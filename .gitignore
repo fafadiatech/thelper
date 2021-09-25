@@ -133,3 +133,6 @@ config.py
 
 # ignore tsv files
 *.tsv
+
+# ignore html report
+report.html
